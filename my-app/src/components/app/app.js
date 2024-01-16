@@ -11,9 +11,9 @@ class App extends Component {
     super(props);
     this.state = {
       data: [
-        { name: "Jhon S.", salary: 2800, increase: false, id: 1 },
-        { name: "Kraig F.", salary: 1800, increase: true, id: 2 },
-        { name: "David U.", salary: 300, increase: false, id: 3 },
+        { name: "Jhon S.", salary: 2800, increase: false, star: true, id: 1 },
+        { name: "Kraig F.", salary: 1800, increase: true, star: false, id: 2 },
+        { name: "David U.", salary: 300, increase: false, star: false, id: 3 },
       ],
     };
     this.maxId = 4;
@@ -33,8 +33,14 @@ class App extends Component {
       name,
       salary,
       increase: false,
+      star: false,
       id: this.maxId++,
     };
+    if (newItem.name.lenght < 3) {
+      return this.addItem;
+    } else if (newItem.salary === "") {
+      return this.addItem;
+    }
     this.setState(({ data }) => {
       const newArr = [...data, newItem];
       return {
@@ -43,15 +49,81 @@ class App extends Component {
     });
   };
 
+  // onToggleIncrease = (id) => {
+  //   // this.setState(({ data }) => {
+  //   //   const index = data.findIndex((elem) => elem.id === id);
+  //   //   const old = data[index];
+  //   //   const newItem = { ...old, increase: !old.increase };
+  //   //   const newArr = [
+  //   //     ...data.slice(0, index),
+  //   //     newItem,
+  //   //     ...data.slice(index + 1),
+  //   //   ];
+
+  //   //   return {
+  //   //     data: newArr,
+  //   //   };
+
+  //   // });
+  //   this.setState(({ data }) => ({
+  //     data: data.map((item) => {
+  //       if (item.id === id) {
+  //         return { ...item, increase: !item.increase };
+  //       }
+  //       return item;
+  //     }),
+  //   }));
+  // };
+
+  // onToggleStar = (id) => {
+  //   this.setState(({ data }) => ({
+  //     data: data.map((item) => {
+  //       if (item.id === id) {
+  //         return { ...item, star: !item.star };
+  //       }
+  //       return item;
+  //     }),
+  //   }));
+  // };
+
+  onToggleProp = (id, prop) => {
+    this.setState(({ data }) => ({
+      data: data.map((item) => {
+        if (item.id === id) {
+          return { ...item, [prop]: !item[prop] };
+        }
+        return item;
+      }),
+    }));
+  };
+
+  totalEmployee = () => {
+    return this.state.data.length;
+  };
+
+  bonusEmployees = () => {
+    return this.state.data.filter((item) => item.increase).length;
+  };
+
   render() {
+    // const increased = this.state.data.filter((item) => item.increase).length;
     return (
       <div className="app">
-        <AppInfo />
+        <AppInfo
+          totalEmployee={this.totalEmployee}
+          bonusEmployees={this.bonusEmployees}
+        />
         <div className="search-panel">
           <SearchPanel />
           <AppFilter />
         </div>
-        <EmployeesList data={this.state.data} onDelete={this.deleteItem} />
+        <EmployeesList
+          data={this.state.data}
+          onDelete={this.deleteItem}
+          onToggleProp={this.onToggleProp}
+          // onToggleIncrease={this.onToggleIncrease}
+          // onToggleStar={this.onToggleStar}
+        />
         <EmployeesAddForm onAdd={this.addItem} />
       </div>
     );

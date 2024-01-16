@@ -33,7 +33,7 @@ class EmployeesAddForm extends Component {
             type="text"
             className="form-control new-post-label"
             placeholder="Как его зовут?"
-            name="nameEmployee"
+            name="name"
             value={name}
             onChange={this.onChangeValue}
           />
