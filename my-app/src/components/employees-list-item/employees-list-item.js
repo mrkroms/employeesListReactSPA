@@ -17,7 +17,7 @@ const EmployeesListItem = (props) => {
   //     this.setState(({ star }) => ({ star: !star }));
   //   };
 
-  const { name, salary, onToggleProp, increase, star } = props;
+  const { name, salary, onToggleProp, increase, star, onDelete } = props;
   //   const { increase } = this.state;
   //   const { star } = this.state;
   let classNames = "list-group-item d-flex justify-content-between";
@@ -53,7 +53,7 @@ const EmployeesListItem = (props) => {
           <i className="fas fa-cookie"></i>
         </button>
 
-        <button type="button" className="btn-trash btn-sm ">
+        <button type="button" className="btn-trash btn-sm " onClick={onDelete}>
           <i className="fas fa-trash"></i>
         </button>
         <i className="fas fa-star"></i>
